@@ -1,24 +1,11 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import {
-  Globe2,
-  Waves,
-  Sparkle,
-  Users,
-  ScrollText,
-  LayoutGrid,
-  ChevronRight,
-  Search,
-} from "lucide-react";
+import { Globe2, Sparkle, ChevronRight, Search } from "lucide-react";
 
 const NAV = [
-  { to: "/", label: "Dashboard", icon: Globe2 },
-  { to: "/rivers", label: "Rivers", icon: Waves },
-  { to: "/oracle", label: "Atlas Oracle", icon: Sparkle },
-  { to: "/rangers", label: "Rangers", icon: Users },
-  { to: "/ledger", label: "Impact Ledger", icon: ScrollText },
-  { to: "/command", label: "Command Center", icon: LayoutGrid },
-] as const;
+  { to: "/" as const, label: "Dashboard", icon: Globe2 },
+  { to: "/oracle" as const, label: "Atlas Oracle", icon: Sparkle },
+];
 
 export function SanctumShell({
   breadcrumb,
