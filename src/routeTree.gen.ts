@@ -9,38 +9,75 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OracleRouteImport } from './routes/oracle'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RiversSlugRouteImport } from './routes/rivers.$slug'
+import { Route as ApiOracleRouteImport } from './routes/api/oracle'
 
+const OracleRoute = OracleRouteImport.update({
+  id: '/oracle',
+  path: '/oracle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiversSlugRoute = RiversSlugRouteImport.update({
+  id: '/rivers/$slug',
+  path: '/rivers/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOracleRoute = ApiOracleRouteImport.update({
+  id: '/api/oracle',
+  path: '/api/oracle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/oracle': typeof OracleRoute
+  '/api/oracle': typeof ApiOracleRoute
+  '/rivers/$slug': typeof RiversSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/oracle': typeof OracleRoute
+  '/api/oracle': typeof ApiOracleRoute
+  '/rivers/$slug': typeof RiversSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/oracle': typeof OracleRoute
+  '/api/oracle': typeof ApiOracleRoute
+  '/rivers/$slug': typeof RiversSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/oracle' | '/api/oracle' | '/rivers/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/oracle' | '/api/oracle' | '/rivers/$slug'
+  id: '__root__' | '/' | '/oracle' | '/api/oracle' | '/rivers/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OracleRoute: typeof OracleRoute
+  ApiOracleRoute: typeof ApiOracleRoute
+  RiversSlugRoute: typeof RiversSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/oracle': {
+      id: '/oracle'
+      path: '/oracle'
+      fullPath: '/oracle'
+      preLoaderRoute: typeof OracleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rivers/$slug': {
+      id: '/rivers/$slug'
+      path: '/rivers/$slug'
+      fullPath: '/rivers/$slug'
+      preLoaderRoute: typeof RiversSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/oracle': {
+      id: '/api/oracle'
+      path: '/api/oracle'
+      fullPath: '/api/oracle'
+      preLoaderRoute: typeof ApiOracleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OracleRoute: OracleRoute,
+  ApiOracleRoute: ApiOracleRoute,
+  RiversSlugRoute: RiversSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
