@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RiversSlugRouteImport } from './routes/rivers.$slug'
+import { Route as ApiOracleRouteImport } from './routes/api/oracle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiversSlugRoute = RiversSlugRouteImport.update({
+  id: '/rivers/$slug',
+  path: '/rivers/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOracleRoute = ApiOracleRouteImport.update({
+  id: '/api/oracle',
+  path: '/api/oracle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/oracle': typeof ApiOracleRoute
+  '/rivers/$slug': typeof RiversSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/oracle': typeof ApiOracleRoute
+  '/rivers/$slug': typeof RiversSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/oracle': typeof ApiOracleRoute
+  '/rivers/$slug': typeof RiversSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/oracle' | '/rivers/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/oracle' | '/rivers/$slug'
+  id: '__root__' | '/' | '/api/oracle' | '/rivers/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiOracleRoute: typeof ApiOracleRoute
+  RiversSlugRoute: typeof RiversSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +68,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rivers/$slug': {
+      id: '/rivers/$slug'
+      path: '/rivers/$slug'
+      fullPath: '/rivers/$slug'
+      preLoaderRoute: typeof RiversSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/oracle': {
+      id: '/api/oracle'
+      path: '/api/oracle'
+      fullPath: '/api/oracle'
+      preLoaderRoute: typeof ApiOracleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiOracleRoute: ApiOracleRoute,
+  RiversSlugRoute: RiversSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
