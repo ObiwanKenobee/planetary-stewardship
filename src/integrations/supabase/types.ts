@@ -14,7 +14,201 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ledger_entries: {
+        Row: {
+          description: string | null
+          event_at: string
+          id: string
+          proof_type: string
+          quantity: string
+          river_id: string | null
+          title: string
+          tx_hash: string
+          verified: boolean
+        }
+        Insert: {
+          description?: string | null
+          event_at?: string
+          id?: string
+          proof_type: string
+          quantity: string
+          river_id?: string | null
+          title: string
+          tx_hash: string
+          verified?: boolean
+        }
+        Update: {
+          description?: string | null
+          event_at?: string
+          id?: string
+          proof_type?: string
+          quantity?: string
+          river_id?: string | null
+          title?: string
+          tx_hash?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_entries_river_id_fkey"
+            columns: ["river_id"]
+            isOneToOne: false
+            referencedRelation: "rivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rangers: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          reputation: number
+          river_id: string | null
+          status: string
+          zone: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          reputation?: number
+          river_id?: string | null
+          status?: string
+          zone: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          reputation?: number
+          river_id?: string | null
+          status?: string
+          zone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rangers_river_id_fkey"
+            columns: ["river_id"]
+            isOneToOne: false
+            referencedRelation: "rivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      river_photos: {
+        Row: {
+          caption: string | null
+          id: string
+          river_id: string
+          taken_at: string
+          url: string
+        }
+        Insert: {
+          caption?: string | null
+          id?: string
+          river_id: string
+          taken_at?: string
+          url: string
+        }
+        Update: {
+          caption?: string | null
+          id?: string
+          river_id?: string
+          taken_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "river_photos_river_id_fkey"
+            columns: ["river_id"]
+            isOneToOne: false
+            referencedRelation: "rivers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rivers: {
+        Row: {
+          baseline_year: number
+          basin: string
+          biodiversity: number
+          city: string
+          created_at: string
+          do_mgl: number | null
+          flood_risk: string
+          flow_m3s: number | null
+          health: number
+          health_trend: number
+          id: string
+          lat: number
+          lng: number
+          map_x: number
+          map_y: number
+          name: string
+          ph: number | null
+          rangers_active: number
+          slug: string
+          status_note: string | null
+          trees_restored: number
+          turbidity: string | null
+          updated_at: string
+          waste_removed_t: number
+        }
+        Insert: {
+          baseline_year?: number
+          basin: string
+          biodiversity?: number
+          city: string
+          created_at?: string
+          do_mgl?: number | null
+          flood_risk?: string
+          flow_m3s?: number | null
+          health?: number
+          health_trend?: number
+          id?: string
+          lat: number
+          lng: number
+          map_x?: number
+          map_y?: number
+          name: string
+          ph?: number | null
+          rangers_active?: number
+          slug: string
+          status_note?: string | null
+          trees_restored?: number
+          turbidity?: string | null
+          updated_at?: string
+          waste_removed_t?: number
+        }
+        Update: {
+          baseline_year?: number
+          basin?: string
+          biodiversity?: number
+          city?: string
+          created_at?: string
+          do_mgl?: number | null
+          flood_risk?: string
+          flow_m3s?: number | null
+          health?: number
+          health_trend?: number
+          id?: string
+          lat?: number
+          lng?: number
+          map_x?: number
+          map_y?: number
+          name?: string
+          ph?: number | null
+          rangers_active?: number
+          slug?: string
+          status_note?: string | null
+          trees_restored?: number
+          turbidity?: string | null
+          updated_at?: string
+          waste_removed_t?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
